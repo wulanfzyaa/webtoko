@@ -18,6 +18,7 @@
                     <th class="px-6 py-3 text-left">Nama Produk</th>
                     <th class="px-6 py-3 text-left">Deskripsi Produk</th>
                     <th class="px-6 py-3 text-left">Harga Produk</th>
+                    <th class="px-6 py-3 text-left">Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -27,32 +28,47 @@
                     <td class="px-6 py-3 font-medium text-gray-800">{{ $item }}</td>
                     <td class="px-6 py-3 text-gray-600">{{ $desc[$index] }}</td>
                     <td class="px-6 py-3 text-green-600 font-semibold">Rp {{ number_format($harga[$index], 0, ',', '.') }}</td>
+                    <td class="px-6 py-3">
+                        <a href="{{ route('produk.edit', $ids[$index]) }}"
+                            class="bg-blue-500 hover:bg-blue-600 text-white text-xs px-3 py-1 rounded mr-2">
+                            Edit
+                        </a>
+                        <form action="{{ route('produk.delete', $ids[$index]) }}" method="POST" class="inline">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit"
+                                onclick="return confirm('Are you sure you want to delete {{ $item }}?')"
+                                class="bg-red-500 hover:bg-red-600 text-white text-xs px-3 py-1 rounded">
+                                Delete
+                            </button>
+                        </form>
+                    </td>
                 </tr>
                 @endforeach
             </tbody>
         </table>
     </div>
     <div><h1>Input Produk</h1></div>
-<form method="POST" action="{{ route('produk.simpan') }}">
-    @csrf
-    <table class="table">
-        <tr>
-            <td>Nama:</td>
-            <td colspan="3"><input type="text" class="form-control" id="nama" name="nama"></td>
-        </tr>
-        <tr>
-            <td>Deskripsi:</td>
-            <td colspan="3"><textarea class="form-control" id="deskripsi" name="deskripsi"></textarea></td>
-        </tr>
-        <tr>
-            <td>Harga:</td>
-            <td><input type="number" class="form-control" id="harga" name="harga"></td>
-            <td></td>
-            <td></td>
-        </tr>
-    </table>
-    <button type="submit" class="btn btn-primary">Simpan</button>
-</form>
+    <form method="POST" action="{{ route('produk.simpan') }}">
+        @csrf
+        <table class="table">
+            <tr>
+                <td>Nama:</td>
+                <td colspan="3"><input type="text" class="form-control" id="nama" name="nama"></td>
+            </tr>
+            <tr>
+                <td>Deskripsi:</td>
+                <td colspan="3"><textarea class="form-control" id="deskripsi" name="deskripsi"></textarea></td>
+            </tr>
+            <tr>
+                <td>Harga:</td>
+                <td><input type="number" class="form-control" id="harga" name="harga"></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </table>
+        <button type="submit" class="btn btn-primary">Simpan</button>
+    </form>
 </div>
 
 </body>
